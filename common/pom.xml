@@ -16,7 +16,7 @@
 		<groupId>com.spss.ibm.spark</groupId>
 		<artifactId>contest</artifactId>
 		<version>1.0-SNAPSHOT</version>
-		<relativePath>../parent/pom.xml</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<description>common</description>
 	<dependencies>
