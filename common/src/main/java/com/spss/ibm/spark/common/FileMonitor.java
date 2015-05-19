@@ -13,7 +13,12 @@ public class FileMonitor {
 	public static void main(String[] args) {
 		Config.load();
 		try {
-			monitor();
+			monitor(Config.getProperty("data.folder"), new MonitorCallBack() {
+
+				@Override
+				public void postFileDetection(String fileName) {
+					System.out.println("File Created:" + fileName);					
+				}});
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
@@ -21,8 +26,8 @@ public class FileMonitor {
 		}
 	}
 
-	public static void monitor() throws IOException, InterruptedException {
-		Path dataFolder = Paths.get(Config.getProperty("data.folder"));
+	public static void monitor(String path, MonitorCallBack callBack) throws IOException, InterruptedException {
+		Path dataFolder = Paths.get(path);
 		WatchService ws = FileSystems.getDefault().newWatchService();
 		dataFolder.register(ws, StandardWatchEventKinds.ENTRY_CREATE);
 
@@ -33,8 +38,7 @@ public class FileMonitor {
 			for (WatchEvent<?> event : watchKey.pollEvents()) {
 				if (StandardWatchEventKinds.ENTRY_CREATE.equals(event.kind())) {
 					String fileName = event.context().toString();
-					// TODO this can notify core project to run some task
-					System.out.println("File Created:" + fileName);
+					callBack.postFileDetection(fileName);
 				}
 			}
 			valid = watchKey.reset();
