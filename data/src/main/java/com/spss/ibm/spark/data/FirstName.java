@@ -14,7 +14,7 @@ public class FirstName {
 			"龚", "文" };
 
 	public static String getRandomFirstName() {
-		int index = RandomNumber.getRandomIndex(FIRST_NAME.length);
+		int index = RandomNumber.getRandomIndex(FIRST_NAME.length - 1);
 		return FIRST_NAME[index];
 	}
 }

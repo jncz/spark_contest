@@ -9,7 +9,7 @@ public class Topic {
 			"蒲公英的正确玩法", "我赚外国人的钱" };
 	
 	public static String getRadomTopic() {
-		int index = RandomNumber.getRandomIndex(TOPICS.length);
+		int index = RandomNumber.getRandomIndex(TOPICS.length - 1);
 		return TOPICS[index];
 	}
 }
