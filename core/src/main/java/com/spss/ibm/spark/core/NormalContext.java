@@ -10,13 +10,14 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.PairFunction;
 
-import com.spss.ibm.spark.common.Config;
-
 import scala.Tuple2;
 
+import com.spss.ibm.spark.common.Config;
+import com.spss.ibm.spark.common.FileMonitor;
+import com.spss.ibm.spark.common.MonitorCallBack;
+
 public class NormalContext {
-	private static void run(JavaSparkContext sc){
-		String path = Config.getRawDataPath();
+	private static void process(JavaSparkContext sc,String path){
 		JavaRDD<String> rdd = sc.textFile(path ).cache();
 		
 		@SuppressWarnings("serial")
@@ -38,7 +39,16 @@ public class NormalContext {
 			DataPersist.persist(entry.getKey(),(Long)entry.getValue());
 		}
 		
-		
+		DataPersist.saveAsJson();
+	}
+	private static void run(final JavaSparkContext sc){
+		FileMonitor m = new FileMonitor();
+		m.start(new MonitorCallBack(){
+
+			public void handleNewFiles() {
+				String path = Config.getProcessingFolderPath();
+				process(sc,path);
+			}});
 	}
 	
 	public static void main(String[] args) throws InterruptedException{
