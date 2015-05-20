@@ -3,6 +3,7 @@ package com.spss.ibm.spark.data;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,6 +11,8 @@ public class DataTimer {
 	private Timer timer;
 	private int seconds;
 	private String folder;
+	private int total = 0;
+	private int bound = 1;
 
 	public DataTimer(String outputFolder, int seconds) {
 		this.timer = new Timer();
@@ -27,7 +30,7 @@ public class DataTimer {
 
 		}, seconds * 1000, seconds * 1000);
 	}
-	
+
 	private void execution() {
 		String content = generateFileContent();
 		try {
@@ -42,8 +45,13 @@ public class DataTimer {
 
 	private String generateFileContent() {
 		StringBuffer buffer = new StringBuffer();
-		for (int i = 0; i < 1000; i++) {
-			String raw = Topic.getRadomTopic() + ","
+		Random r = new Random(20);
+		for (int i = 0; i < 2000; i++) {
+			total += 1;
+			if (total > (2000 * bound) && bound < 19) {
+				bound += 1;
+			}
+			String raw = Topic.getRadomTopic(r, bound) + ","
 					+ FirstName.getRandomFirstName() + ","
 					+ System.currentTimeMillis() + "\n";
 			buffer.append(raw);
