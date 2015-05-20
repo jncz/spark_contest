@@ -1,5 +1,7 @@
 package com.spss.ibm.spark.common;
 
+import java.io.File;
+
 public interface MonitorCallBack {
-	public void postFileDetection(String fileName);
+	public void handleNewFiles(File[] files);
 }
