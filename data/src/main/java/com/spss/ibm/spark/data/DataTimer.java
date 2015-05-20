@@ -13,6 +13,8 @@ public class DataTimer {
 	private String folder;
 	private int total = 0;
 	private int bound = 1;
+	private int delta = 2;
+	private int deltacount = 1;
 
 	public DataTimer(String outputFolder, int seconds) {
 		this.timer = new Timer();
@@ -48,10 +50,14 @@ public class DataTimer {
 		Random r = new Random(20);
 		for (int i = 0; i < 2000; i++) {
 			total += 1;
-			if (total > (2000 * bound) && bound < 19) {
+			if (total > (4000 * bound) && total < 80000 && bound < 19) {
 				bound += 1;
 			}
-			String raw = Topic.getRadomTopic(r, bound) + ","
+			if (total > 80000 * deltacount) {
+				deltacount +=1;
+				delta += 2;
+			}
+			String raw = Topic.getRadomTopic(r, bound, delta) + ","
 					+ FirstName.getRandomFirstName() + ","
 					+ System.currentTimeMillis() + "\n";
 			buffer.append(raw);
