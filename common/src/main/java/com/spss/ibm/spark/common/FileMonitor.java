@@ -3,28 +3,20 @@ package com.spss.ibm.spark.common;
 import java.io.File;
 
 public class FileMonitor {
-	public static void main(String[] args) {
-		Config.load();
-		FileMonitor fm = new FileMonitor();
-		fm.monitor(new MonitorCallBack() {
 
-			@Override
-			public void handleNewFiles(File[] files) {
-				for (File file : files)
-					System.out.println("File Created:" + file.getName());
-			}
-		});
+	public void start(MonitorCallBack callBack) {
+		File srcfolder = new File(Config.getRawDataPath());
+		File profolder = new File(Config.getProcessingFolderPath());
+		File donefolder = new File(Config.getDoneFolderPath());
+		moveFiles(srcfolder, profolder);
+		callBack.handleNewFiles();
+		moveFiles(profolder, donefolder);
 	}
 
-	public void monitor(MonitorCallBack callBack) {
-		File srcfolder = new File(Config.getProperty("data.folder"));
-		File tgfolder = new File(Config.getProperty("done.folder"));
+	private void moveFiles(File srcfolder, File tarfolder) {
 		File[] files = srcfolder.listFiles();
-		if (files != null && files.length > 0) {
-			callBack.handleNewFiles(files);
-		}
 		for (File file : files) {
-			file.renameTo(new File(tgfolder, file.getName()));
+			file.renameTo(new File(tarfolder, file.getName()));
 		}
 	}
 }

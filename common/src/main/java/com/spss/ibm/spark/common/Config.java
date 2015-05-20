@@ -20,9 +20,6 @@ public class Config {
 			}
 		}
 	}
-	public static void load() {
-		
-	}
 	
 	public static String getProperty(String key) {
 		return props.getProperty(key);
@@ -38,5 +35,9 @@ public class Config {
 	
 	public static String getProcessingFolderPath(){
 		return props.getProperty("processing.folder");
+	}
+	
+	public static String getDoneFolderPath() {
+		return props.getProperty("done.folder");
 	}
 }

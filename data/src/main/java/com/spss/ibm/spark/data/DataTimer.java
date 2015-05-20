@@ -1,5 +1,6 @@
 package com.spss.ibm.spark.data;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Timer;
@@ -30,8 +31,8 @@ public class DataTimer {
 	private void execution() {
 		String content = generateFileContent();
 		try {
-			FileWriter fw = new FileWriter(folder
-					+ System.currentTimeMillis() + ".csv", true);
+			File file = new File(folder, System.currentTimeMillis() + ".csv");
+			FileWriter fw = new FileWriter(file, true);
 			fw.write(content);
 			fw.close();
 		} catch (IOException e) {
