@@ -9,13 +9,14 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 
+import com.spss.ibm.spark.common.Config;
+
 public class Debuger {
-	private static final String dataPath = "/home/liping/Downloads/data/data.properties";
 	public static void print(){
 		Properties p = new Properties();
 		InputStream in = null;
 		try{
-			in = new FileInputStream(dataPath);
+			in = new FileInputStream(Config.getDataFilePath());
 			p.load(in);
 		} catch (Exception e) {
 			e.printStackTrace();

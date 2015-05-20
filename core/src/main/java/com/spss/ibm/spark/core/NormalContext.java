@@ -10,13 +10,14 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.PairFunction;
 
+import com.spss.ibm.spark.common.Config;
+
 import scala.Tuple2;
 
 public class NormalContext {
-	private static final String path = "/home/liping/Documents/dev/spark_contest/common/src/main/resources/Sample/raw/";
-	
 	private static void run(JavaSparkContext sc){
-		JavaRDD<String> rdd = sc.textFile(path).cache();
+		String path = Config.getRawDataPath();
+		JavaRDD<String> rdd = sc.textFile(path ).cache();
 		
 		@SuppressWarnings("serial")
 		Map<String, Object> num = rdd.mapToPair(new PairFunction<String,String,Integer>(){
@@ -36,6 +37,8 @@ public class NormalContext {
 			
 			DataPersist.persist(entry.getKey(),(Long)entry.getValue());
 		}
+		
+		
 	}
 	
 	public static void main(String[] args) throws InterruptedException{

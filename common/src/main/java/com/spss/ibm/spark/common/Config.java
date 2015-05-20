@@ -8,8 +8,7 @@ import java.util.Properties;
 
 public class Config {
 	private static Properties props = new Properties();
-	
-	public static void load() {
+	static{
 		File file = new File("../common/src/main/resources/configuration/config.properties");
 		if (file.exists()) {
 			try {
@@ -21,8 +20,23 @@ public class Config {
 			}
 		}
 	}
+	public static void load() {
+		
+	}
 	
 	public static String getProperty(String key) {
 		return props.getProperty(key);
+	}
+	
+	public static String getDataFilePath(){
+		return props.getProperty("data.file.path");
+	}
+	
+	public static String getRawDataPath(){
+		return props.getProperty("data.folder");
+	}
+	
+	public static String getProcessingFolderPath(){
+		return props.getProperty("processing.folder");
 	}
 }

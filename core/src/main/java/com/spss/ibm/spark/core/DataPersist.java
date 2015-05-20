@@ -11,11 +11,13 @@ import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
 
+import com.spss.ibm.spark.common.Config;
+
 public class DataPersist {
-	private static final String dataPath = "/home/liping/Downloads/data/data.properties";
 	private static final Properties p = new Properties();
 	
 	public synchronized static void persist(String key,long v){
+		String dataPath = Config.getDataFilePath();
 		InputStream in = null;
 		try{
 			in = new FileInputStream(dataPath);
