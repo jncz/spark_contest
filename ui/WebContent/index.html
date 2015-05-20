@@ -13,7 +13,7 @@
 	<div id="real-time-line" class="epoch" style="height: 200px"></div>
 	<script>
 		$(function() {
-			var data = new RealTimeData(2);
+			var data = new RealTimeData(10);
 
 			var chart = $('#real-time-line').epoch({
 				type : 'time.line',
@@ -29,13 +29,13 @@
 				}).complete(function(data) {
 					if (data.responseText) {
 						var jsonObject = JSON.parse(data.responseText);
-						var chartData = [ {
-							time : jsonObject.timestamp,
-							y : jsonObject.topics[0].hot
-						}, {
-							time : jsonObject.timestamp,
-							y : jsonObject.topics[1].hot
-						} ];
+						var chartData = [];
+						for(var i = 0; i < 10; i ++){
+							chartData.push({
+								time : jsonObject.timestamp,
+								y : jsonObject.topics[i].hot /10000 * i *  Math.random()
+							});
+						}
 						chart.push(chartData);
 					}
 				});

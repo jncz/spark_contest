@@ -28,7 +28,7 @@
         for (var i = 0; i < entries; i++) {
             for (var j = 0; j < this.layers; j++) {
             	history[j].label = 'Series' + j;
-                history[j].values.push({time: this.timestamp, y: this.rand()});
+                history[j].values.push({time: this.timestamp, y: 10});
             }
             this.timestamp++;
         }
