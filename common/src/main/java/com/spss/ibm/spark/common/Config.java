@@ -40,4 +40,8 @@ public class Config {
 	public static String getDoneFolderPath() {
 		return props.getProperty("done.folder");
 	}
+	
+	public static String getOutputPath(){
+		return props.getProperty("output.folder");
+	}
 }

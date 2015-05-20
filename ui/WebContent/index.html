@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Spark Contest</title>
+<link rel="stylesheet" type="text/css"
+	href="vendors/epoch/epoch.min.css">
+<script src="vendors/jQuery/jquery-2.1.1.min.js"></script>
+<script src="vendors/d3/d3.min.js"></script>
+<script src="vendors/epoch/epoch.min.js"></script>
+<script src="js/data.js"></script>
+</head>
+<body>
+	<div id="real-time-line" class="epoch" style="height: 200px"></div>
+	<script>
+		$(function() {
+			var data = new RealTimeData(10);
+
+			var chart = $('#real-time-line').epoch({
+				type : 'time.line',
+				data : data.history(),
+				axes : [ 'top', 'left', 'bottom', 'right' ],
+				fps : 1000
+			});
+			console.info(data.history());
+			console.info(data.next());
+			setInterval(function() {
+				$.ajax({
+					url : "Comet"
+				}).complete(function(data) {
+					if (data.responseText) {
+						var jsonObject = JSON.parse(data.responseText);
+						var chartData = [];
+						for(var i = 0; i < 10; i ++){
+							chartData.push({
+								time : jsonObject.timestamp,
+								y : jsonObject.topics[i].hot /10000 * i *  Math.random()
+							});
+						}
+						chart.push(chartData);
+					}
+				});
+			}, 5000);
+		});
+	</script>
+</body>
+</html>
