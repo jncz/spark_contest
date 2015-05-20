@@ -7,9 +7,16 @@ import java.util.TimerTask;
 
 public class DataTimer {
 	private Timer timer;
+	private int seconds;
+	private String folder;
 
-	public DataTimer(int seconds) {
-		timer = new Timer();
+	public DataTimer(String outputFolder, int seconds) {
+		this.timer = new Timer();
+		this.seconds = seconds;
+		this.folder = outputFolder;
+	}
+
+	public void start() {
 		timer.schedule(new TimerTask() {
 
 			@Override
@@ -19,12 +26,11 @@ public class DataTimer {
 
 		}, seconds * 1000, seconds * 1000);
 	}
-
+	
 	private void execution() {
 		String content = generateFileContent();
-		String rawFolder = "/home/parallels/EricWorkspaces/Works/HackSpark/spark_contest/common/src/main/resources/Sample/raw/";
 		try {
-			FileWriter fw = new FileWriter(rawFolder
+			FileWriter fw = new FileWriter(folder
 					+ System.currentTimeMillis() + ".csv", true);
 			fw.write(content);
 			fw.close();
