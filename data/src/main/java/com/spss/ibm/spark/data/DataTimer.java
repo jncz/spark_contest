@@ -53,7 +53,7 @@ public class DataTimer {
 			if (total > (4000 * bound) && total < 80000 && bound < 19) {
 				bound += 1;
 			}
-			if (total > 80000 * deltacount) {
+			if (total > 10000 * deltacount) {
 				deltacount +=1;
 				delta += 2;
 			}
