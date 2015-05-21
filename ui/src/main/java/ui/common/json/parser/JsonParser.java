@@ -7,14 +7,11 @@ import org.json.simple.parser.JSONParser;
 
 public class JsonParser {
 	public static JSONObject parseJsonFile(String jsonPath) {
-		JSONObject jsonObject = null;;
+		JSONObject jsonObject = null;
 		JSONParser parser = new JSONParser();
 		try {
-
 			Object obj = parser.parse(new FileReader(jsonPath));
-
-		jsonObject = (JSONObject) obj;
-
+			jsonObject = (JSONObject) obj;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
