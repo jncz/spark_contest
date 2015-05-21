@@ -26,7 +26,7 @@ public class MessageSender implements Runnable {
 	 */
 	public void send(String message) {
 		synchronized (messages) {
-			messages.add(0, message);
+			messages.add(message);
 			System.out.println("Message added #messages=" + messages.size());
 			messages.notify();
 		}
@@ -59,11 +59,9 @@ public class MessageSender implements Runnable {
 					}
 				}
 				PrintWriter writer = connection.getWriter();
-				for (int j = 0; j < pendingMessages.length; j++) {
-					final String forecast = pendingMessages[j];
-					writer.println(forecast);
-					System.out.println("Writing:" + forecast);
-				}
+				final String forecast = pendingMessages[0];
+				writer.println(forecast);
+				System.out.println("Writing:" + forecast);
 				writer.flush();
 				writer.close();
 				messages.removeAll(messages);
