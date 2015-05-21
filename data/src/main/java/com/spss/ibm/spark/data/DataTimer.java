@@ -48,9 +48,9 @@ public class DataTimer {
 	private String generateFileContent() {
 		StringBuffer buffer = new StringBuffer();
 		Random r = new Random(20);
-		for (int i = 0; i < 2000; i++) {
+		for (int i = 0; i < 100; i++) {
 			total += 1;
-			if (total > (4000 * bound) && total < 80000 && bound < 19) {
+			if (total > (1000 * bound) && total < 80000 && bound < 19) {
 				bound += 1;
 			}
 			if (total > 10000 * deltacount) {
