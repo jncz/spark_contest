@@ -9,7 +9,6 @@ import javax.servlet.ServletResponse;
 public class MessageSender implements Runnable {
 
 	protected boolean running = true;
-//	protected final AdrrayList<String> messages = new ArrayList<String>();
 	protected final ArrayList<String> messages = new ArrayList<String>();
 	private ServletResponse connection;
 

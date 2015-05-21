@@ -2,45 +2,102 @@
 <html lang="en">
 <head>
 <title>Spark Contest</title>
-<link rel="stylesheet" type="text/css"
-	href="vendors/epoch/epoch.min.css">
 <script src="vendors/jQuery/jquery-2.1.1.min.js"></script>
-<script src="vendors/d3/d3.min.js"></script>
-<script src="vendors/epoch/epoch.min.js"></script>
-<script src="js/data.js"></script>
+<script src="vendors/stock/highstock.js"></script>
+<script src="vendors/stock/exporting.js"></script>
 </head>
 <body>
-	<div id="real-time-line" class="epoch" style="height: 200px"></div>
+	<div id="container" style="height: 400px; min-width: 310px"></div>
 	<script>
-		$(function() {
-			var data = new RealTimeData(10);
-
-			var chart = $('#real-time-line').epoch({
-				type : 'time.line',
-				data : data.history(),
-				axes : [ 'top', 'left', 'bottom', 'right' ],
-				fps : 1000
+	$(function () {
+	    $(document).ready(function () {
+	        Highcharts.setOptions({
+	            global: {
+	                useUTC: false
+	            }
+	        });
+	        var jsonObject;
+	        $.ajax({
+				url : "comet",
+				async : false
+			}).complete(function(data) {
+				if (data.responseText) {
+					jsonObject = JSON.parse(data.responseText);
+				}
 			});
-			console.info(data.history());
-			console.info(data.next());
-			setInterval(function() {
-				$.ajax({
-					url : "Comet"
-				}).complete(function(data) {
-					if (data.responseText) {
-						var jsonObject = JSON.parse(data.responseText);
-						var chartData = [];
-						for(var i = 0; i < 10; i ++){
-							chartData.push({
-								time : jsonObject.timestamp,
-								y : jsonObject.topics[i].hot
-							});
-						}
-						chart.push(chartData);
-					}
-				});
-			}, 5000);
-		});
+	        var series = [];
+	        var data = [], time = (new Date()).getTime();
+	        for (i = -19; i <= 0; i += 1) {
+                data.push({
+                    x: time + i * 1000,
+                    y: Math.random()
+                });
+            }
+	        for(var i = 0; i < jsonObject.topics.length; i ++){
+	        	var item = jsonObject.topics[i];
+	        	series.push({name : item.topic, data : data});
+	        }
+	        var chart = $('#container').highcharts({
+	            chart: {
+	                type: 'spline',
+	                animation: Highcharts.svg, 
+	                marginRight: 10,
+	                events: {
+	                    load: function () {
+
+	                        var series = this.series;
+	                        setInterval(function () {
+	                        	$.ajax({
+	                  				url : "comet",
+	                  				async : false
+	                  			}).complete(function(data) {
+	                  				if (data.responseText) {
+	                  					var jsonObject = JSON.parse(data.responseText);
+	                  					for(var i = 0; i < jsonObject.topics.length; i ++){
+	                  			        	var item = jsonObject.topics[i];
+	                  						series[i].addPoint([jsonObject.timestamp, item.hot], true, true);
+	                  					}
+	                  				}
+	                  			});
+	                        }, 1000);
+	                    }
+	                }
+	            },
+	            title: {
+	                text: 'Live random data'
+	            },
+	            xAxis: {
+	                type: 'datetime',
+	                tickPixelInterval: 150
+	            },
+	            yAxis: {
+	                title: {
+	                    text: 'Value'
+	                },
+	                plotLines: [{
+	                    value: 0,
+	                    width: 1,
+	                    color: '#808080'
+	                }]
+	            },
+	            tooltip: {
+	                formatter: function () {
+	                    return '<b>' + this.series.name + '</b><br/>' +
+	                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+	                        Highcharts.numberFormat(this.y, 2);
+	                }
+	            },
+	            legend: {
+	                enabled: true
+	            },
+	            exporting: {
+	                enabled: true
+	            },
+	            series: series
+	        });
+	        
+	    });
+	});
 	</script>
 </body>
 </html>
