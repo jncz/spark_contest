@@ -8,12 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.catalina.comet.CometEvent;
-import org.apache.catalina.comet.CometProcessor;
 
 import ui.common.comet.MessageSender;
 import ui.common.json.reader.JsonReader;
 
-public class CometServlet extends HttpServlet implements CometProcessor {
+public class CometServlet extends HttpServlet implements org.apache.catalina.comet.CometProcessor {
 	private static final long serialVersionUID = 1L;
 	private MessageSender messageSender = null;
 	private static final Integer TIMEOUT = 60 * 1000;
@@ -58,5 +57,4 @@ public class CometServlet extends HttpServlet implements CometProcessor {
 
 	}
 
-	
 }

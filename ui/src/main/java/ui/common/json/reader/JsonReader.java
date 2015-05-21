@@ -9,7 +9,7 @@ import ui.common.json.parser.JsonParser;
 
 public class JsonReader {
 	private MessageSender messageSender;
-	private final String jsonPath = "C:/Ella/work/spark/data/output/latest.json";
+	private final String jsonPath = "/home/liping/Downloads/data/output/latest.json";
 
 	public JsonReader(MessageSender messageSender) {
 		this.messageSender = messageSender;
@@ -22,9 +22,6 @@ public class JsonReader {
 				int counter = 1;
 				while (true) {
 					File jsonFile = new File(jsonPath);
-//					File outputFolder = new File(jsonPath);
-//					File[] files = outputFolder.listFiles();
-//					int i = (int) (Math.round(Math.random()) * 10);
 					if(jsonFile.exists()){
 						JSONObject object = JsonParser.parseJsonFile(jsonPath);
 						messageSender.send(object.toJSONString());

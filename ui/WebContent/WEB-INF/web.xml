@@ -6,7 +6,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>CometServlet</servlet-name>
-        <url-pattern>/comet</url-pattern>
+        <url-pattern>/Comet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
