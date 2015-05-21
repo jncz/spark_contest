@@ -9,7 +9,7 @@ import ui.common.json.parser.JsonParser;
 
 public class JsonReader {
 	private MessageSender messageSender;
-	private final String jsonPath = "C:/Ella/work/spark/data/output/latest.json";
+	private final String jsonPath = "/home/liping/Downloads/data/output/latest.json";
 
 	public JsonReader(MessageSender messageSender) {
 		this.messageSender = messageSender;
