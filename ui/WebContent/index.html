@@ -11,6 +11,17 @@
 	<script>
 	$(function () {
 	    $(document).ready(function () {
+	    	var getSeries = function getSeries(name){
+	    		var series =  $('#container').highcharts().series;
+	    		var findSeries = 0;
+	    		for (var i = 0; i < series.length; i++){
+	    			if(series[i].name === name){
+	    				findSeries =  series[i];
+	    				break;
+	    			}
+	    		}
+	    		return findSeries;
+	    	}
 	        Highcharts.setOptions({
 	            global: {
 	                useUTC: false
@@ -44,7 +55,6 @@
 	                marginRight: 10,
 	                events: {
 	                    load: function () {
-
 	                        var series = this.series;
 	                        setInterval(function () {
 	                        	$.ajax({
@@ -55,7 +65,7 @@
 	                  					var jsonObject = JSON.parse(data.responseText);
 	                  					for(var i = 0; i < jsonObject.topics.length; i ++){
 	                  			        	var item = jsonObject.topics[i];
-	                  						series[i].addPoint([jsonObject.timestamp, item.hot], true, true);
+	                  			        	getSeries(item.topic).addPoint([parseInt(jsonObject.timestamp), item.hot], true, true);
 	                  					}
 	                  				}
 	                  			});
