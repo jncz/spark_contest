@@ -26,7 +26,7 @@ public class MessageSender implements Runnable {
 	 */
 	public void send(String message) {
 		synchronized (messages) {
-			messages.add(message);
+			messages.add(0, message);
 			System.out.println("Message added #messages=" + messages.size());
 			messages.notify();
 		}

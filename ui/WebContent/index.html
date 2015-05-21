@@ -44,7 +44,7 @@
                     y: Math.random()
                 });
             }
-	        for(var i = 0; i < jsonObject.topics.length; i ++){
+	        for(var i = 0; i < 10; i ++){
 	        	var item = jsonObject.topics[i];
 	        	series.push({name : item.topic, data : data});
 	        }
@@ -63,7 +63,7 @@
 	                  			}).complete(function(data) {
 	                  				if (data.responseText) {
 	                  					var jsonObject = JSON.parse(data.responseText);
-	                  					for(var i = 0; i < jsonObject.topics.length; i ++){
+	                  					for(var i = 0; i < 10; i ++){
 	                  			        	var item = jsonObject.topics[i];
 	                  			        	getSeries(item.topic).addPoint([parseInt(jsonObject.timestamp), item.hot], true, true);
 
